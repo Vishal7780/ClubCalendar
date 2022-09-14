@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>572368673238-vfssp759aqrefl5mutt219t836jf1r6i.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.572368673238-vfssp759aqrefl5mutt219t836jf1r6i</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>572368673238-kf41gvupsd5njc23d96hqb2b3fi1ehf7.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD8OlzZNCan0Nudm-aH_0HA7O9jpXzMpeY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>572368673238</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.clubCalendar</string>
+	<key>PROJECT_ID</key>
+	<string>clubcalendar-ff6b0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>clubcalendar-ff6b0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:572368673238:ios:7daea0a1ad34a7fe98ec77</string>
+</dict>
+</plist>
