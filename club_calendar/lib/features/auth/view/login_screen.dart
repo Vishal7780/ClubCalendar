@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:club_calendar/features/admin/events/view/admin_dashboard.dart';
 import 'package:club_calendar/features/auth/model/google_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -114,14 +116,25 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
 
                     if (user != null) {
-                      // Navigator.of(context).pushReplacement(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => UserInfoScreen(
-                      //       user: user,
-                      //     ),
-                      //   ),
-                      // );
-                      Navigator.pushReplacementNamed(context, EventScreen.routeName);
+                      print("MOTHER OF GOD");
+                      User? user = FirebaseAuth.instance.currentUser;
+                      String uid = user!.uid.toString();
+                      var documentSnapshot = await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(uid)
+                          .get();
+                      if (user != null) {
+                        print("LOL in google auth");
+                        print("GOOOGLE AUTH HERE USER IS " +
+                            documentSnapshot.data()!['type'].toString());
+                        documentSnapshot["type"] == "user"
+                            ? Navigator.pushReplacementNamed(
+                                context, EventScreen.routeName)
+                            : Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AdminDashboard()));
+                      }
                     }
                   },
                   child: Container(

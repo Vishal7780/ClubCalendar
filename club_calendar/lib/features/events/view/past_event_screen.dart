@@ -59,12 +59,12 @@ class _PastEventsScreenState extends State<PastEventsScreen> {
                 print("GOT DATA");
                 print(snapshot.data.toString());
                 //TODO: Used Jugaad find proper method
-                if (snapshot.data.toString() == "[null]"||snapshot.data.toString() == "[]") {
-                  return const Center(
-                    child: Text("No past events",
-                        style: TextStyle(color: Colors.white)),
-                  );
-                }
+                // if (snapshot.data.toString() == "[null]"||snapshot.data.toString() == "[]") {
+                //   return const Center(
+                //     child: Text("No past events",
+                //         style: TextStyle(color: Colors.white)),
+                //   );
+                // }
                 //print("Lol it came here");
                 List<Event?> temp = snapshot.data as List<Event?>;
                 final List<Event?> events = temp.whereType<Event>().toList();
@@ -76,7 +76,13 @@ class _PastEventsScreenState extends State<PastEventsScreen> {
                   data.putIfAbsent(monthName, () => <Event?>[]).add(events[i]);
                 }
 
-                //print(data);
+                print(data.isEmpty);
+                if(data.isEmpty){
+                  return const Center(
+                    child: Text("No events",
+                        style: TextStyle(color: Colors.white)),
+                  );
+                }
                 return ListView.builder(
                   physics : const BouncingScrollPhysics(),
                     shrinkWrap: true,

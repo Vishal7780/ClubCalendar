@@ -59,14 +59,15 @@ class _EventScreenState extends State<EventScreen> {
               if (snapshot.hasData) {
                 print("GOT DATA");
                 print("DATA"+ snapshot.data.toString());
-                if (snapshot.data.toString() == "[null]" || snapshot.data.toString() == "[]") {
-                  return const Center(
-                    child: Text("No events",
-                        style: TextStyle(color: Colors.white)),
-                  );
-                }
+                // if (snapshot.data!.toString() == "[null]" || snapshot.data.toString() == "[]") {
+                //   return const Center(
+                //     child: Text("No events",
+                //         style: TextStyle(color: Colors.white)),
+                //   );
+                // }
 
                 List<Event?> temp = snapshot.data as List<Event?>;
+                print("temp"+temp.toString());
                 final List<Event?> events = temp.whereType<Event>().toList();
                 Map<String, List<Event?>> data =
                     new Map<String, List<Event?>>();
@@ -75,8 +76,13 @@ class _EventScreenState extends State<EventScreen> {
                       DateFormat('MMM').format(events[i]!.eventStartDate);
                   data.putIfAbsent(monthName, () => <Event?>[]).add(events[i]);
                 }
-
-                print(data);
+                print(data.isEmpty);
+                if(data.isEmpty){
+                  return const Center(
+                    child: Text("No events",
+                        style: TextStyle(color: Colors.white)),
+                  );
+                }
                 return ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,

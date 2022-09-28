@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:club_calendar/features/admin/events/view/add_event.dart';
 import 'package:club_calendar/features/app_review/view/app_feedback_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
+import 'features/admin/events/view/admin_dashboard.dart';
+import 'features/admin/view_app_feedback/view_app_feedback.dart';
 import 'features/app_review/controller/app_feedback_provider.dart';
+import 'features/auth/model/google_auth.dart';
 import 'features/auth/view/login_screen.dart';
 import 'features/events/controller/event_provider.dart';
 import 'features/events/view/event_screen.dart';
@@ -17,7 +22,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-
   print("Handling a background message: ${message.messageId}");
 }
 
@@ -64,7 +68,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     final fbm = FirebaseMessaging.instance;
-
     // IOS Configurations
     fbm.setForegroundNotificationPresentationOptions(
         alert: true, badge: true, sound: true);
@@ -83,7 +86,6 @@ class _MyAppState extends State<MyApp> {
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel', // id
       'High Importance Notifications', // title
-
       importance: Importance.max,
     );
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -120,34 +122,112 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return NeumorphicApp(
-      debugShowCheckedModeBanner: false,
-      //home: ,//EventScreen(),
-      home: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              if (snapshot.hasData) {
-                return ChangeNotifierProvider<EventsProvider>(
-                    create: (_) => EventsProvider(), child: EventScreen());
-                //return UserInfoScreen(user: snapshot.data);
-              }
-            }
-            return LoginScreen();
-          }),
-      routes: {
-        LoginScreen.routeName: (context) => LoginScreen(),
-        EventScreen.routeName: (context) =>
-            ChangeNotifierProvider<EventsProvider>(
-                create: (_) => EventsProvider(), child: EventScreen()),
-        AppFeedBackScreen.routeName: (context) =>
-            ChangeNotifierProvider<ReviewProvider>(
-                create: (_) => ReviewProvider(), child: AppFeedBackScreen()),
-        PastEventsScreen.routeName: (context) =>
-            ChangeNotifierProvider<EventsProvider>(
-                create: (_) => EventsProvider(), child: PastEventsScreen())
-      },
-      title: 'Flutter Demo',
-    );
+    return FutureBuilder(
+        future: Init.instance.initialize(context),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return MaterialApp(home: Center(child: Text("splash")));
+          }
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ReviewProvider>(
+                  create: (_) => ReviewProvider()),
+              ChangeNotifierProvider<EventsProvider>(
+                  create: (_) => EventsProvider()),
+                ChangeNotifierProvider<EventsProvider>(
+                        create: (_) => EventsProvider())
+            ],
+            child: NeumorphicApp(
+              debugShowCheckedModeBanner: false,
+              home: getHome(snapshot.data),
+              //home: ,//EventScreen(),
+              // home: StreamBuilder<User?>(
+              //     stream: FirebaseAuth.instance.authStateChanges(),
+              //     builder: (context, snapshot) {
+              //       if (snapshot.connectionState == ConnectionState.active) {
+              //         if (snapshot.hasData) {
+              //           return ChangeNotifierProvider<EventsProvider>(
+              //               create: (_) => EventsProvider(), child: EventScreen());
+              //           //return UserInfoScreen(user: snapshot.data);
+              //         }
+              //       }
+              //       return LoginScreen();
+              //     }),
+              routes: {
+                LoginScreen.routeName: (context) => LoginScreen(),
+                EventScreen.routeName: (context) =>
+                    ChangeNotifierProvider<EventsProvider>(
+                        create: (_) => EventsProvider(), child: EventScreen()),
+                AppFeedBackScreen.routeName: (context) =>
+                    ChangeNotifierProvider<ReviewProvider>(
+                        create: (_) => ReviewProvider(),
+                        child: AppFeedBackScreen()),
+                PastEventsScreen.routeName: (context) =>
+                    ChangeNotifierProvider<EventsProvider>(
+                        create: (_) => EventsProvider(),
+                        child: PastEventsScreen()),
+                ViewAppFeedback.routeName: (context) => ViewAppFeedback(),
+                AdminDashboard.routeName : (context) => AdminDashboard(),
+                AddEventPage.routeName : (context) =>AddEventPage(),
+              },
+              title: 'Flutter Demo',
+            ),
+          );
+        });
+  }
+}
+
+Widget getHome(int authLevel) {
+  switch (authLevel) {
+    case -1:
+      return LoginScreen();
+    // break;
+    case 0:
+      return ChangeNotifierProvider<EventsProvider>(
+          create: (_) => EventsProvider(), child: EventScreen());
+    // break;
+    case 1:
+      return AdminDashboard();
+    // break;
+    default:
+      return Center(child: Text('Something Went wrong : ((((('));
+  }
+}
+
+class Init {
+  Init._();
+  static final instance = Init._();
+
+  Future<int?> initialize(BuildContext context) async {
+    await Firebase.initializeApp();
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    //initiate default subscription topic
+    messaging.subscribeToTopic("announcement");
+    messaging.getToken().then((value) {
+      print(value);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print('Message clicked!');
+    });
+    if (!Authentication.isAuth) {
+      print("Auth Status :"+ Authentication.isAuth.toString());
+      return -1;
+    } else {
+      Authentication.setUid();
+      // DocumentSnapshot<Map<String, dynamic>> documentSnapshot;
+      var documentSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(Authentication.uid)
+          .get();
+      if (!documentSnapshot.exists) {
+        return -1;
+      } else if ((documentSnapshot.data()!['type'].toString() == "user")) {
+        print("LOL in main");
+        return 0;
+      } else {
+        print(documentSnapshot.data()!['type'].toString());
+        return 1;
+      }
+    }
   }
 }

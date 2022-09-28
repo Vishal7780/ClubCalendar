@@ -74,3 +74,4 @@ club_calendar/lib/firebase_options.dart
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 club_calendar/ios/Runner/GoogleService-Info.plist
 club_calendar/android/app/google-services.json
+club_calendar/cloud_function/functions/node_modules

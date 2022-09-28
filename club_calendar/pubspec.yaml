@@ -50,6 +50,9 @@ dependencies:
   url_launcher: ^6.1.5
   firebase_messaging: ^13.0.2
   flutter_local_notifications: ^11.0.0
+  http: ^0.13.5
+  datetime_picker_formfield: ^2.0.1
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_test:
