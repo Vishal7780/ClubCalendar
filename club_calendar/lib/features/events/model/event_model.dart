@@ -33,31 +33,38 @@ class Event{
     required this.eventRecordings,
   });
 
-  // factory Event.fromJson(Map<String,dynamic> json) {
-  //   print("FACTORY Accessed");
-  //   Event e = Event(
-  //     id: json["id"],
-  //     title: json["title"],
-  //     description: json["description"],
-  //     startDate: json["startDate"],
-  //     endDate: json["endDate"],
-  //     organizer: json["organizer"],
-  //     locationName: json["location"],
-  //     //prizeMoney: json["prizeMoney"],
-  //   );
-  //   print("Event");
 
-  //   return Event(
-  //     id: json["id"],
-  //     title: json["title"],
-  //     description: json["description"],
-  //     startDate: json["startDate"],
-  //     endDate: json["endDate"],
-  //     organizer: json["organizer"],
-  //     locationName: json["location"],
-  //     //prizeMoney: json["prizeMoney"],
-  //   );
-  //}
+  factory Event.fromJson(Map<String,dynamic> json) {
+   print("FACTORY Accessed");
+  Event e = Event(
+     eventId: json["eventId"],
+       eventName: json["eventName"],
+    eventDescription: json["description"],
+    eventStartDate: json["eventStartDate"],
+    eventEndDate: json["eventEndDate"],
+    eventSpeakers: json["eventSpeakers"],
+    eventLocation: json["eventLocation"],
+    eventPrizeMoney: json["eventPrizeMoney"],
+      eventDuration:json["eventDuration"],
+      eventPrizes:json["eventPrizes"],
+      eventRecordings:json["eventRecordings"]
+    );
+    print("Event");
+
+    return Event(
+        eventId: json["eventId"],
+        eventName: json["eventName"],
+        eventDescription: json["description"],
+        eventStartDate: json["eventStartDate"],
+        eventEndDate: json["eventEndDate"],
+        eventSpeakers: json["eventSpeakers"],
+        eventLocation: json["eventLocation"],
+        eventPrizeMoney: json["eventPrizeMoney"],
+        eventDuration:json["eventDuration"],
+        eventPrizes:json["eventPrizes"],
+        eventRecordings:json["eventRecordings"]
+    );
+  }
 }
 
 

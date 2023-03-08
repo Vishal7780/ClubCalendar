@@ -7,6 +7,7 @@ import '../../../../auth/model/google_auth.dart';
 import '../../../../auth/view/login_screen.dart';
 import '../../../../events/view/widgets/custom_button.dart';
 import '../../../view_app_feedback/view_app_feedback.dart';
+import 'package:club_calendar/features/events/view/past_event_screen.dart';
 
 Drawer adminDrawer(context){
   double height = MediaQuery.of(context).size.height;
@@ -35,7 +36,7 @@ Drawer adminDrawer(context){
                 
                 customButton(context: context, title: "Manage Events", callFunction: (){
                   print("Past Events Screen");
-                  //Navigator.pushReplacementNamed(context, PastEventsScreen.routeName );
+                  Navigator.pushReplacementNamed(context, PastEventsScreen.routeName );
                 }),
                 
                 customButton(context: context, title: "View App Feedback", callFunction: (){

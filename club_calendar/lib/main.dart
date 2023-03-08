@@ -15,8 +15,8 @@ import 'features/events/view/event_screen.dart';
 import 'features/events/view/past_event_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart'
-    as locNots;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart' as locNots;
+import 'package:firebase_core/firebase_core.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -64,6 +64,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+
   @override
   void initState() {
     super.initState();
@@ -227,6 +228,7 @@ class Init {
       } else {
         print(documentSnapshot.data()!['type'].toString());
         return 1;
+        
       }
     }
   }
