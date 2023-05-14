@@ -5,6 +5,8 @@
 
 //     Person({required this.firstName, this.lastName});
 // }
+import 'package:flutter/foundation.dart';
+
 class Event{
   String eventId;
   String eventName;
@@ -17,7 +19,7 @@ class Event{
   String eventPrizeMoney;
   String eventPrizes;
   String eventRecordings;
-  //double prizeMoney;
+
   
   Event({
     required this.eventId,
@@ -35,7 +37,9 @@ class Event{
 
 
   factory Event.fromJson(Map<String,dynamic> json) {
-   print("FACTORY Accessed");
+   if (kDebugMode) {
+     print("FACTORY Accessed");
+   }
   Event e = Event(
      eventId: json["eventId"],
        eventName: json["eventName"],
@@ -49,7 +53,9 @@ class Event{
       eventPrizes:json["eventPrizes"],
       eventRecordings:json["eventRecordings"]
     );
-    print("Event");
+    if (kDebugMode) {
+      print("Event");
+    }
 
     return Event(
         eventId: json["eventId"],

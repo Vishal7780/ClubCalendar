@@ -1,12 +1,13 @@
 import 'package:club_calendar/features/admin/events/view/add_event.dart';
 import 'package:club_calendar/features/admin/events/view/admin_dashboard.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-
+import 'package:club_calendar/features/admin/events/view/Manage_events.dart';
 import '../../../../../styles.dart';
 import '../../../../auth/model/google_auth.dart';
 import '../../../../auth/view/login_screen.dart';
 import '../../../../events/view/widgets/custom_button.dart';
 import '../../../view_app_feedback/view_app_feedback.dart';
+import 'package:club_calendar/features/admin/events/view/Manage_events.dart';
 import 'package:club_calendar/features/events/view/past_event_screen.dart';
 
 Drawer adminDrawer(context){
@@ -35,8 +36,8 @@ Drawer adminDrawer(context){
                 }),
                 
                 customButton(context: context, title: "Manage Events", callFunction: (){
-                  print("Past Events Screen");
-                  Navigator.pushReplacementNamed(context, PastEventsScreen.routeName );
+                  print("Manage events");
+                  Navigator.pushReplacementNamed(context, ManageEvents.routeName);
                 }),
                 
                 customButton(context: context, title: "View App Feedback", callFunction: (){

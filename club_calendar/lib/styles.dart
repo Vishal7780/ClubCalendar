@@ -159,3 +159,6 @@ class Styles {
     );
   }
 }
+
+
+// onPressed: _takePicture,

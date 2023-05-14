@@ -3,14 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:club_calendar/features/admin/events/view/widgets/admin_drawer.dart';
 import 'package:club_calendar/features/admin/events/view/widgets/image_input.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../../../styles.dart';
+
+
 
 
 class AddEventPage extends StatefulWidget {
@@ -22,15 +23,20 @@ class AddEventPage extends StatefulWidget {
 
 class _AddEventPageState extends State<AddEventPage> {
 
-  TextEditingController sampledata1=new TextEditingController();
-  TextEditingController sampledata2=new TextEditingController();
-  TextEditingController sampledata3=new TextEditingController();
-  TextEditingController sampledata4=new TextEditingController();
-  TextEditingController sampledata5=new TextEditingController();
-  TextEditingController sampledata6=new TextEditingController();
-  TextEditingController sampledata7=new TextEditingController();
-  TextEditingController sampledata8=new TextEditingController();
-  TextEditingController sampledata9=new TextEditingController();
+  TextEditingController sampledata1= TextEditingController();
+  TextEditingController sampledata2=TextEditingController();
+  TextEditingController sampledata3=TextEditingController();
+  TextEditingController sampledata4=TextEditingController();
+  TextEditingController sampledata5=TextEditingController();
+  TextEditingController sampledata6=TextEditingController();
+  TextEditingController sampledata7=TextEditingController();
+  TextEditingController sampledata8=TextEditingController();
+  TextEditingController sampledata9=TextEditingController();
+  TextEditingController sampledata10=TextEditingController();
+  TextEditingController sampledata11=TextEditingController();
+  TextEditingController sampledata12=TextEditingController();
+
+
 
 
   Styles styles = Styles();
@@ -50,7 +56,9 @@ class _AddEventPageState extends State<AddEventPage> {
         leading: IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              print("clicked");
+              if (kDebugMode) {
+                print("clicked");
+              }
               _scaffoldKey.currentState!.openDrawer();
             }),
         backgroundColor: Styles.backgroundColor,
@@ -63,58 +71,67 @@ class _AddEventPageState extends State<AddEventPage> {
       ),
       drawer: adminDrawer(context),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Form(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(children: [
+              ImageInput(onSelectImage: _selectImage),
+              SizedBox(height: 10,),
               TextFormField(
                 controller: sampledata1,
                 decoration: InputDecoration(
-                    labelText:'Event ID',
-                    labelStyle:TextStyle(
-                      fontSize:14,
-                      fontWeight:FontWeight.w400
+                    labelText: 'Event ID',
+                    labelStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
                     ),
-                  prefixIcon: Icon( Icons.event_rounded,size: 18,),
-                  enabledBorder:OutlineInputBorder(
-                    borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  floatingLabelStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue,width: 1.5,),
-                    borderRadius: BorderRadius.circular(10),
-                  )
-                ),
+                    prefixIcon: const Icon(
+                      Icons.event_rounded,
+                      size: 18,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade200,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    floatingLabelStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.blue,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    )),
               ),
 
-
-
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               TextFormField(
                 controller: sampledata2,
                 decoration: InputDecoration(labelText:'Event Name',
-                    labelStyle:TextStyle(
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.event_note,size: 18,),
+                    prefixIcon:const Icon( Icons.event_note,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
+
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     ),
 
@@ -122,52 +139,49 @@ class _AddEventPageState extends State<AddEventPage> {
               ),
 
 
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               TextFormField(
                 controller: sampledata3,
-                decoration: InputDecoration(label: Text("Event Location"),
-                    labelStyle:TextStyle(
+                decoration: InputDecoration(label:const Text("Event Location"),
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.location_on_sharp,size: 18,),
+                    prefixIcon:const Icon( Icons.location_on_sharp,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     )
                 ),
               ),
-
-
-
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               TextFormField(
                 controller: sampledata4,
                 decoration: InputDecoration(
                     labelText:'Event Description',
-                    labelStyle:TextStyle(
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.description,size: 18,),
+                    prefixIcon:const Icon( Icons.description,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     )
                 ),
@@ -177,110 +191,100 @@ class _AddEventPageState extends State<AddEventPage> {
 
 
               //TODO : MAKE THIS A DROPDOWN MAYBE
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               TextFormField(
                 controller: sampledata5,
                 decoration: InputDecoration(
                     labelText:'Event Duration',
-                    labelStyle:TextStyle(
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.av_timer_outlined,size: 18,),
+                    prefixIcon:const Icon( Icons.av_timer_outlined,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     )
                 ),
               ),
 
-
-
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               TextFormField(
                 controller: sampledata6,
                 decoration: InputDecoration(
-                    label: Text("Event Resources"),
-                    labelStyle:TextStyle(
+                    label:const Text("Event Resources"),
+                    labelStyle:const TextStyle(
                     fontSize:14,
                     fontWeight:FontWeight.w400
                 ),
-                  prefixIcon: Icon( Icons.contacts,size: 18,),
+                  prefixIcon:const Icon( Icons.contacts,size: 18,),
                   enabledBorder:OutlineInputBorder(
                     borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  floatingLabelStyle: TextStyle(
-                    color: Colors.black,
+                  floatingLabelStyle:const TextStyle(
+                    color: Colors.white,
                     fontSize: 18,
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                    borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                     borderRadius: BorderRadius.circular(10),
                   )
                 ),
               ),
-
-
-
-
-
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               TextFormField(
                 controller: sampledata7,
                 decoration: InputDecoration(
-                    label: Text("Speakers"),
-                    labelStyle:TextStyle(
+                    label:const Text("Speakers"),
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.speaker,size: 18,),
+                    prefixIcon:const Icon( Icons.speaker,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     )
 
                 ),
               ),
 
-
-
-
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               TextFormField(
                 controller: sampledata8,
-                decoration: InputDecoration(label: Text("Prizes"),
-                    labelStyle:TextStyle(
+                decoration: InputDecoration(label: const Text("Prizes"),
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.military_tech_outlined,size: 18,),
+                    prefixIcon:const Icon( Icons.military_tech_outlined,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     )
                 ),
@@ -289,27 +293,25 @@ class _AddEventPageState extends State<AddEventPage> {
 
 
 
-
-
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               TextFormField(
                 controller: sampledata9,
-                decoration: InputDecoration(label: Text("Total Prize Money"),
-                    labelStyle:TextStyle(
+                decoration: InputDecoration(label:const Text("Total Prize Money"),
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.attach_money,size: 18,),
+                    prefixIcon: const Icon( Icons.attach_money,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     )),
               ),
@@ -319,25 +321,25 @@ class _AddEventPageState extends State<AddEventPage> {
 
 
 
-              SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               DateTimeField(
-
-                decoration: InputDecoration(label: Text("Start Date and Time"),
-                    labelStyle:TextStyle(
+                controller: sampledata12,
+                decoration: InputDecoration(label:const Text("Start Date and Time"),
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.date_range,size: 18,),
+                    prefixIcon:const Icon( Icons.date_range,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     )),
                 format: DateFormat("yyyy-MM-dd HH:mm"),
@@ -356,6 +358,7 @@ class _AddEventPageState extends State<AddEventPage> {
                     return DateTimeField.combine(date, time);
                   } else {
                     return currentValue;
+
                   }
                 },
               ),
@@ -363,25 +366,25 @@ class _AddEventPageState extends State<AddEventPage> {
 
 
 
-                            SizedBox(height: 15,),
+              const SizedBox(height: 15,),
               DateTimeField(
-
-                decoration: InputDecoration(label: Text("End Date and Time"),
-                    labelStyle:TextStyle(
+                controller: sampledata11,
+                decoration: InputDecoration(label: const Text("End Date and Time"),
+                    labelStyle:const TextStyle(
                         fontSize:14,
                         fontWeight:FontWeight.w400
                     ),
-                    prefixIcon: Icon( Icons.date_range,size: 18,),
+                    prefixIcon:const Icon( Icons.date_range,size: 18,),
                     enabledBorder:OutlineInputBorder(
                       borderSide:BorderSide(color:Colors.grey.shade200,width:2,),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    floatingLabelStyle: TextStyle(
-                      color: Colors.black,
+                    floatingLabelStyle:const TextStyle(
+                      color: Colors.white,
                       fontSize: 18,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue,width: 1.5,),
+                      borderSide:const BorderSide(color: Colors.blue,width: 1.5,),
                       borderRadius: BorderRadius.circular(10),
                     )
 
@@ -405,15 +408,16 @@ class _AddEventPageState extends State<AddEventPage> {
                   }
                 },
               ),
-              ImageInput(onSelectImage: _selectImage ),
-              RawMaterialButton(
 
-                fillColor: Color(0x2196F3FF),
+              ElevatedButton(
+                style: ButtonStyle(backgroundColor:MaterialStateProperty.all(Styles.buttonColor)),
 
                 onPressed: (){
+                  // print(sampledata11.text);
+                  // print(sampledata12.text);
                   Reference referenceRoot=FirebaseStorage.instance.ref();
-                  Reference referenceDirImages=referenceRoot.child('./');
-                  Reference referenceImageToUpload=referenceDirImages.child("EventId");
+                  Reference referenceDirImages=referenceRoot.child('');
+                  Reference referenceImageToUpload=referenceDirImages.child('${sampledata1.text}.jpg');
                   referenceImageToUpload.putFile(File(_pickedImage!.path));
                   Map<String,dynamic>data={"eventId":sampledata1.text,
                     "eventName":sampledata2.text,
@@ -424,21 +428,15 @@ class _AddEventPageState extends State<AddEventPage> {
                     "eventSpeakers":sampledata7.text,
                     "eventPrizes":sampledata8.text,
                     "eventPrizeMoney":sampledata9.text,
-                    "eventStartDate":Timestamp.now(),
-                    "eventEndDate":Timestamp.now(),
-
-
-
-
+                    "eventStartDate":Timestamp.fromDate(DateTime.parse(sampledata11.text)),
+                    "eventEndDate":Timestamp.fromDate(DateTime.parse(sampledata12.text)),
                   };
-                 FirebaseFirestore.instance.collection("events").add(data);
+                 FirebaseFirestore.instance.collection("events").doc(sampledata1.text).set(data);
                 },
-                child: Text('Post event',style: TextStyle(color:Colors.white,fontSize: 16 ),
+                child:const Text('Post event',style: TextStyle(color:Colors.white,fontSize: 16 ),
                 ),
 
-                elevation: 0,
-                padding: EdgeInsets.symmetric(vertical: 20),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
               )
 
 

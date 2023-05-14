@@ -67,12 +67,19 @@ class _ViewAppFeedbackState extends State<ViewAppFeedback> {
                           Map<String, dynamic> data =
                               document.data()! as Map<String, dynamic>;
                           return Card(
+
+                            shadowColor: Colors.black,
+                            elevation: 10,
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(10.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Email : "+data["name"], style:styles.descriptionStyle(), ),
+                                  Icon(Icons.person_2_outlined),
+                                  Text( ("Email : " +data["name"]),
+                                    style:styles.descriptionStyle(
+                                    ),
+                                  ),
                                   Text("Experience of Events : " +data["eventExp"].toString(), style:styles.descriptionStyle()),
                                   Text("Overall Experience : "+ data["overallExp"].toString(), style:styles.descriptionStyle()),
                                   Text(data["rating"]==""? "No rating added": data["rating"].toString(), style:styles.descriptionStyle())

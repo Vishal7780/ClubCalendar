@@ -1,6 +1,5 @@
 import 'package:club_calendar/features/admin/events/view/widgets/admin_drawer.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 import '../../../../styles.dart';
@@ -23,7 +22,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
           leading: IconButton(
               icon: const Icon(Icons.menu),
               onPressed: () {
-                print("clicked");
+
+                  if (kDebugMode) {
+                    print("clicked");
+
+                }
                 _scaffoldKey.currentState!.openDrawer();
               }),
           backgroundColor: Styles.backgroundColor,
@@ -34,6 +37,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             style: styles.headingStyle(),
           ),
         ),
+
         drawer: adminDrawer(context),
     );
   }

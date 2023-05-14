@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as sysPath;
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:club_calendar/styles.dart';
 class ImageInput extends StatefulWidget {
   final Function onSelectImage;
 
@@ -44,56 +45,67 @@ class _ImageInputState extends State<ImageInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
+    return GestureDetector(
+      onTap: (){
+        _takePicture();
+      },
       child: Row(
-        children: [
-          Container(
-            width: 200, height: 60,
-            decoration: BoxDecoration(border: Border.all(width: 1),
-              borderRadius: BorderRadius.circular(20)
 
+        children: [
+
+            Container(
+
+
+              height: 200,
+              width: 370,
+
+
+              decoration: BoxDecoration(border: Border.all(width: 2,
+              color: Colors.white),
+
+
+                borderRadius: BorderRadius.circular(10),
+
+
+
+              ),
+
+              child: _storedImage !=null ? Image.file(_storedImage!,
+                fit: BoxFit.cover, width: double.infinity,)
+                  : Text('Add Poster',textAlign: TextAlign.center,),
+              alignment: Alignment.center,
             ),
 
-            child: _storedImage !=null ? Image.file(_storedImage!,
-              fit: BoxFit.cover, width: double.infinity,)
-                : Text('No Image Taken',textAlign: TextAlign.center,),
-          alignment: Alignment.center,
-          ),
-          const SizedBox(height: 60,),
+          const SizedBox(height: 50,),
           const SizedBox(width: 1.6,),
 
-          Expanded(
+          // Expanded(
 
-              child: ElevatedButton(
+              // child: ElevatedButton(
+              //
+              //   style: ButtonStyle(
+              //
+              //       backgroundColor:MaterialStateProperty.all(Styles.buttonColor),
+              //
+              //   ),
+              //   child: Row(
+              //
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text('Add Poster'),
+              //       Icon(Icons.image),
+              //
+              //     ],
+              //   ),
+              //
+              //
+              //     onPressed: _takePicture,
+              // ),
+              //
+              //
+              //
+              // )
 
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Add Poster'),
-                    Icon(Icons.image),
-
-                  ],
-                ),
-
-
-                  onPressed: _takePicture,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.cyan,
-                        textStyle: TextStyle(fontSize: 8,fontWeight: FontWeight.bold),
-                      elevation: 8,
-                      shadowColor: Colors.grey,
-                      alignment: Alignment.center,
-                      shape: StadiumBorder(),
-
-
-
-                    ),
-
-
-
-              )
-          )
         ],
       ),
     );

@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:club_calendar/features/admin/events/view/Manage_events.dart';
 import 'package:club_calendar/features/admin/events/view/add_event.dart';
 import 'package:club_calendar/features/app_review/view/app_feedback_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:provider/provider.dart';
 import 'features/admin/events/view/admin_dashboard.dart';
 import 'features/admin/view_app_feedback/view_app_feedback.dart';
@@ -16,13 +19,15 @@ import 'features/events/view/past_event_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart' as locNots;
-import 'package:firebase_core/firebase_core.dart';
+
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
+  if (kDebugMode) {
+    print("Handling a background message: ${message.messageId}");
+  }
 }
 
 Future<void> main() async {
@@ -74,12 +79,20 @@ class _MyAppState extends State<MyApp> {
         alert: true, badge: true, sound: true);
     fbm.requestPermission();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('IOS Listener');
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      if (kDebugMode) {
+        print('IOS Listener');
+      }
+      if (kDebugMode) {
+        print('Got a message whilst in the foreground!');
+      }
+      if (kDebugMode) {
+        print('Message data: ${message.data}');
+      }
 
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+        if (kDebugMode) {
+          print('Message also contained a notification: ${message.notification}');
+        }
       }
     });
 
@@ -98,13 +111,19 @@ class _MyAppState extends State<MyApp> {
     FirebaseMessaging.instance
         .getInitialMessage()
         .then((RemoteMessage? message) {
-      print('message recived');
+      if (kDebugMode) {
+        print('message recived');
+      }
     });
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Android Listener');
+      if (kDebugMode) {
+        print('Android Listener');
+      }
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
-      print('Android Notification:');
+      if (kDebugMode) {
+        print('Android Notification:');
+      }
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
@@ -127,7 +146,7 @@ class _MyAppState extends State<MyApp> {
         future: Init.instance.initialize(context),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return MaterialApp(home: Center(child: Text("splash")));
+            return const GetMaterialApp(home: Center(child: Text("splash")));
           }
           return MultiProvider(
             providers: [
@@ -158,18 +177,19 @@ class _MyAppState extends State<MyApp> {
                 LoginScreen.routeName: (context) => LoginScreen(),
                 EventScreen.routeName: (context) =>
                     ChangeNotifierProvider<EventsProvider>(
-                        create: (_) => EventsProvider(), child: EventScreen()),
+                        create: (_) => EventsProvider(), child: const EventScreen()),
                 AppFeedBackScreen.routeName: (context) =>
                     ChangeNotifierProvider<ReviewProvider>(
                         create: (_) => ReviewProvider(),
-                        child: AppFeedBackScreen()),
+                        child: const AppFeedBackScreen()),
                 PastEventsScreen.routeName: (context) =>
                     ChangeNotifierProvider<EventsProvider>(
                         create: (_) => EventsProvider(),
-                        child: PastEventsScreen()),
-                ViewAppFeedback.routeName: (context) => ViewAppFeedback(),
-                AdminDashboard.routeName : (context) => AdminDashboard(),
-                AddEventPage.routeName : (context) =>AddEventPage(),
+                        child: const PastEventsScreen()),
+                ViewAppFeedback.routeName: (context) => const ViewAppFeedback(),
+                AdminDashboard.routeName : (context) => const AdminDashboard(),
+                AddEventPage.routeName : (context) =>const AddEventPage(),
+                ManageEvents.routeName:(context)=>const ManageEvents()
               },
               title: 'Flutter Demo',
             ),
@@ -185,13 +205,13 @@ Widget getHome(int authLevel) {
     // break;
     case 0:
       return ChangeNotifierProvider<EventsProvider>(
-          create: (_) => EventsProvider(), child: EventScreen());
+          create: (_) => EventsProvider(), child: const EventScreen());
     // break;
     case 1:
-      return AdminDashboard();
+      return const AdminDashboard();
     // break;
     default:
-      return Center(child: Text('Something Went wrong : ((((('));
+      return const Center(child: Text('Something Went wrong : ((((('));
   }
 }
 
@@ -205,13 +225,19 @@ class Init {
     //initiate default subscription topic
     messaging.subscribeToTopic("announcement");
     messaging.getToken().then((value) {
-      print(value);
+      if (kDebugMode) {
+        print(value);
+      }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      print('Message clicked!');
+      if (kDebugMode) {
+        print('Message clicked!');
+      }
     });
     if (!Authentication.isAuth) {
-      print("Auth Status :"+ Authentication.isAuth.toString());
+      if (kDebugMode) {
+        print("Auth Status :${Authentication.isAuth}");
+      }
       return -1;
     } else {
       Authentication.setUid();
@@ -223,10 +249,14 @@ class Init {
       if (!documentSnapshot.exists) {
         return -1;
       } else if ((documentSnapshot.data()!['type'].toString() == "user")) {
-        print("LOL in main");
+        if (kDebugMode) {
+          print("LOL in main");
+        }
         return 0;
       } else {
-        print(documentSnapshot.data()!['type'].toString());
+        if (kDebugMode) {
+          print(documentSnapshot.data()!['type'].toString());
+        }
         return 1;
         
       }

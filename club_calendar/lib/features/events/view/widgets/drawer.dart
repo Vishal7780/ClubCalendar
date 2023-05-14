@@ -8,6 +8,7 @@ import '../../../auth/view/login_screen.dart';
 import '../event_screen.dart';
 import '../past_event_screen.dart';
 
+
 Drawer customDrawer(context){
   double height = MediaQuery.of(context).size.height;
   double width = MediaQuery.of(context).size.height;

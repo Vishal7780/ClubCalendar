@@ -1,13 +1,18 @@
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../styles.dart';
 
 Widget customTile(
     {required String dayName,
+
     required String day,
     required String eventName,
     required String duration}) {
   final styles = Styles();
+  int index;
 
   final dateSection = Padding(
       padding: const EdgeInsets.all(10),
@@ -20,7 +25,9 @@ Widget customTile(
           child: Card(
             color: Colors.black12,
             child: Column(
+
               children: [
+
                 Padding(
                   padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: Text(day,
@@ -41,15 +48,17 @@ Widget customTile(
             ),
           )));
   final eventSection =Flexible(
-        child:Container(
+
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Padding(
+
               padding: const EdgeInsets.all(8.0),
               child: Text(eventName,
+
                   style: styles.cardHeadingStyle()),
             ),
             Padding(
@@ -60,7 +69,7 @@ Widget customTile(
           ],
         ),
       ),
-    )
+
     ); 
   return Padding(
     padding: const EdgeInsets.all(15),
