@@ -20,6 +20,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart' as locNots;
 
+import 'features/splash_screen.dart';
+
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -146,7 +148,11 @@ class _MyAppState extends State<MyApp> {
         future: Init.instance.initialize(context),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const GetMaterialApp(home: Center(child: Text("splash")));
+            return const GetMaterialApp(
+                debugShowCheckedModeBanner: false,
+                home: Center(child: SplashScreen()
+                   )
+            );
           }
           return MultiProvider(
             providers: [
