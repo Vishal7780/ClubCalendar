@@ -71,6 +71,22 @@ class Event{
         eventRecordings:json["eventRecordings"]
     );
   }
+
+   toJson() {
+     eventId: ["eventId"];
+     eventName: ["eventName"];
+     eventDescription: ["description"];
+     eventStartDate: ["eventStartDate"];
+     eventEndDate: ["eventEndDate"];
+     eventSpeakers:  ["eventSpeakers"];
+     eventLocation:  ["eventLocation"];
+     eventPrizeMoney:  ["eventPrizeMoney"];
+     eventDuration: ["eventDuration"];
+     eventPrizes: ["eventPrizes"];
+     eventRecordings:"eventRecordings";
+   }
+
+
 }
 
 

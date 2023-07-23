@@ -1,13 +1,15 @@
+
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:club_calendar/features/admin/events/view/widgets/admin_drawer.dart';
 import 'package:club_calendar/features/admin/events/view/widgets/image_input.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
-
+import 'package:club_calendar/features/events/model/event_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../../../styles.dart';
 
@@ -17,11 +19,13 @@ import '../../../../styles.dart';
 class AddEventPage extends StatefulWidget {
   const AddEventPage({Key? key}) : super(key: key);
   static const routeName = "addEvent";
+
   @override
   State<AddEventPage> createState() => _AddEventPageState();
 }
 
 class _AddEventPageState extends State<AddEventPage> {
+
 
   TextEditingController sampledata1= TextEditingController();
   TextEditingController sampledata2=TextEditingController();
@@ -445,5 +449,9 @@ class _AddEventPageState extends State<AddEventPage> {
         ),
       ),
     );
+  }
+  Future <void> update_event(Event event)async{
+    final _db =FirebaseFirestore.instance;
+    await _db.collection('events').doc(event.eventId).update(event.toJson());
   }
 }

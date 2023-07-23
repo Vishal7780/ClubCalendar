@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:club_calendar/features/admin/events/view/admin_dashboard.dart';
 import 'package:club_calendar/features/auth/model/google_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart' as neu;
 import '../../../styles.dart';
@@ -67,7 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           // softWrap: true,
                           textAlign: TextAlign.center,
                           style: styles.customStyle(
-                              color: Styles.buttonColor, size: 35.0),
+                              color: Styles.buttonColor,
+                              size: 35.0),
                         ),
                       ),
                     ],
@@ -116,7 +118,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
 
                     if (user != null) {
-                      print("MOTHER OF GOD");
+                      if (kDebugMode) {
+                        print("MOTHER OF GOD");
+                      }
                       User? user = FirebaseAuth.instance.currentUser;
                       String uid = user!.uid.toString();
                       var documentSnapshot = await FirebaseFirestore.instance
@@ -124,9 +128,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           .doc(uid)
                           .get();
                       if (user != null) {
-                        print("LOL in google auth");
-                        print("GOOOGLE AUTH HERE USER IS " +
-                            documentSnapshot.data()!['type'].toString());
+                        if (kDebugMode) {
+                          print("LOL in google auth");
+                        }
+                        if (kDebugMode) {
+                          print("GOOOGLE AUTH HERE USER IS ${documentSnapshot.data()!['type']}");
+                        }
                         documentSnapshot["type"] == "user"
                             ? Navigator.pushReplacementNamed(
                                 context, EventScreen.routeName)
